@@ -1,6 +1,7 @@
 .*
 !.gitignore
 !.java-version
+!.travis.yml
 *.iml
 project/target
 project/project

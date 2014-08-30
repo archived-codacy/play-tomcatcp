@@ -1,5 +1,8 @@
 # Tomcat JDBC Connection Pool Plugin
 
+[![Build Status](https://travis-ci.org/codacy/play-tomcatcp.svg)](https://travis-ci.org/codacy/play-tomcatcp)
+[![Codacy Badge](https://www.codacy.com/project/badge/b67192ff30fb48bdb4aab2abb486ad26)](https://www.codacy.com/public/codacy/play-tomcatcp.git)
+
 This plugin works with PlayFramework `2.3.x`. It uses version `8.0.11` of Tomcat JDBC CP.
 
 ## Usage
@@ -37,6 +40,6 @@ db.default.user="example"
 db.default.password="example"
 ```
 
-## Inspiration
+## Thanks
 
 The code here is highly inspired by the [HikariCP](http://edulify.github.io/play-hikaricp.edulify.com/) plugin.
