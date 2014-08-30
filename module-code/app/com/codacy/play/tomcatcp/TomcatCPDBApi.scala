@@ -32,15 +32,19 @@ class TomcatCPDBApi(configuration: Configuration, classloader: ClassLoader) exte
     dataSourceName => dataSourceName -> configuration.getConfig(dataSourceName).getOrElse(Configuration.empty)
   }
 
-  val (datasources, drivers): (List[(DataSource, String)], List[Driver]) = dataSourceConfigs.map {
-    case (dataSourceName, dataSourceConfig) =>
-      Logger.info(s"Creating Pool for datasource: '$dataSourceName'")
-      val tomcatConfig = TomcatCPConfig.getConfig(dataSourceConfig)
-      val driver = registerDriver(dataSourceConfig)
-      val dataSource = new TomcatDataSource(tomcatConfig)
-      bindToJNDI(dataSourceConfig, tomcatConfig, dataSource)
-      (dataSource -> dataSourceName, driver.get)
-  }.toList.unzip
+  val (datasources, drivers): (List[(DataSource, String)], List[Driver]) = {
+    val (dataSources, drivers) = dataSourceConfigs.map {
+      case (dataSourceName, dataSourceConfig) =>
+        Logger.info(s"Creating Pool for datasource: '$dataSourceName'")
+        val tomcatConfig = TomcatCPConfig.getConfig(dataSourceConfig)
+        val driver = registerDriver(dataSourceConfig)
+        val dataSource = new TomcatDataSource(tomcatConfig)
+        bindToJNDI(dataSourceConfig, tomcatConfig, dataSource)
+        (dataSource -> dataSourceName, driver)
+    }.toList.unzip
+
+    (dataSources, drivers.flatten)
+  }
 
   def deregisterAll(): Unit = drivers.foreach(DriverManager.deregisterDriver)
 
