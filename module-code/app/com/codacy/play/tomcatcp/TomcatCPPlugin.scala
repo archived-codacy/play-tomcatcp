@@ -38,7 +38,7 @@ class TomcatCPPlugin(app: Application) extends DBPlugin {
     play.api.Logger.info("Starting Tomcat connection pool...")
     tomcatCPDBApi.datasources.map { case (dataSource, dataSourceName) =>
       try {
-        dataSource.getConnection.close()
+        //dataSource.getConnection.close()
         app.mode match {
           case Mode.Test =>
           case mode: Mode.Value => Logger.info(s"database [$dataSourceName] connected at ${dbURL(dataSource.getConnection)}")
