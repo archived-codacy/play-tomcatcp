@@ -28,7 +28,7 @@ class TomcatCPPlugin(app: Application) extends DBPlugin {
   lazy val databaseConfig = app.configuration.getConfig("db").getOrElse(Configuration.empty)
 
   override def enabled = !app.configuration.getString("tomcat.enabled").contains("false")
-
+  val connectOnStart = app.configuration.getBoolean("tomcat.connectOnStart").getOrElse(true) 
 
   private lazy val tomcatCPDBApi = new TomcatCPDBApi(databaseConfig, app.classloader)
 
@@ -38,7 +38,10 @@ class TomcatCPPlugin(app: Application) extends DBPlugin {
     play.api.Logger.info("Starting Tomcat connection pool...")
     tomcatCPDBApi.datasources.map { case (dataSource, dataSourceName) =>
       try {
-        dataSource.getConnection.close()
+        if (connectOnStart) {
+          dataSource.getConnection.close()
+        }
+
         app.mode match {
           case Mode.Test =>
           case mode: Mode.Value => Logger.info(s"database [$dataSourceName] connected at ${dbURL(dataSource.getConnection)}")
