@@ -44,11 +44,11 @@ class TomcatCPPlugin(app: Application) extends DBPlugin {
 
         app.mode match {
           case Mode.Test =>
-          case mode: Mode.Value => Logger.info(s"database [$dataSourceName] connected at ${dbURL(dataSource.getConnection)}")
+          case mode: Mode.Value => Logger.info(s"database [$dataSourceName] connected")
         }
       } catch {
         case NonFatal(e) =>
-          throw databaseConfig.reportError(s"$dataSourceName.url", s"Cannot connect to database [$dataSourceName]", Some(e.getCause))
+          throw databaseConfig.reportError(s"$dataSourceName", s"Cannot connect to database [$dataSourceName]", Some(e.getCause))
       }
     }
   }
