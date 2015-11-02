@@ -1,7 +1,9 @@
 # Tomcat JDBC Connection Pool Plugin
 
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/b67192ff30fb48bdb4aab2abb486ad26)](https://www.codacy.com/app/Codacy/play-tomcatcp)
+[![Codacy Badge](https://api.codacy.com/project/badge/coverage/b67192ff30fb48bdb4aab2abb486ad26)](https://www.codacy.com/app/Codacy/play-tomcatcp)
 [![Build Status](https://travis-ci.org/codacy/play-tomcatcp.svg)](https://travis-ci.org/codacy/play-tomcatcp)
-[![Codacy Badge](https://www.codacy.com/project/badge/b67192ff30fb48bdb4aab2abb486ad26)](https://www.codacy.com/public/codacy/play-tomcatcp.git)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.codacy/play-tomcatcp_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.codacy/play-tomcatcp_2.11)
 
 This plugin works with PlayFramework `2.3.x`. It uses version `8.0.11` of Tomcat JDBC CP.
 

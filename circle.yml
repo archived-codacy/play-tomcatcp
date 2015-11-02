@@ -1,0 +1,6 @@
+test:
+  override:
+    - (cd codacy-plugins-test; sbt clean coverage test)
+    - (cd codacy-plugins-test; sbt coverageReport)
+    - (cd codacy-plugins-test; sbt coverageAggregate)
+    - (cd codacy-plugins-test; sbt codacyCoverage)
