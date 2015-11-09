@@ -11,7 +11,7 @@ This plugin works with PlayFramework `2.3.x`. It uses version `8.0.11` of Tomcat
 
 Add the following dependency to your `project/build.sbt` or `project/Build.scala`:
 
-    "com.codacy" %% "play-tomcatcp" % "1.0.0"
+    "com.codacy" %% "play-tomcatcp" % "1.0.2"
 
 ### Step 2: Disable default `dbplugin`
 
