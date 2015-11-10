@@ -1,7 +1,9 @@
 # Tomcat JDBC Connection Pool Plugin
 
-[![Build Status](https://travis-ci.org/codacy/play-tomcatcp.svg)](https://travis-ci.org/codacy/play-tomcatcp)
-[![Codacy Badge](https://www.codacy.com/project/badge/b67192ff30fb48bdb4aab2abb486ad26)](https://www.codacy.com/public/codacy/play-tomcatcp.git)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/b67192ff30fb48bdb4aab2abb486ad26)](https://www.codacy.com/app/Codacy/play-tomcatcp)
+[![Codacy Badge](https://api.codacy.com/project/badge/coverage/b67192ff30fb48bdb4aab2abb486ad26)](https://www.codacy.com/app/Codacy/play-tomcatcp)
+[![Circle CI](https://circleci.com/gh/codacy/play-tomcatcp.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/codacy/play-tomcatcp)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.codacy/play-tomcatcp_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.codacy/play-tomcatcp_2.11)
 
 This plugin works with PlayFramework `2.3.x`. It uses version `8.0.11` of Tomcat JDBC CP.
 
@@ -9,7 +11,7 @@ This plugin works with PlayFramework `2.3.x`. It uses version `8.0.11` of Tomcat
 
 Add the following dependency to your `project/build.sbt` or `project/Build.scala`:
 
-    "com.codacy" %% "play-tomcatcp" % "1.0.0"
+    "com.codacy" %% "play-tomcatcp" % "1.0.2"
 
 ### Step 2: Disable default `dbplugin`
 
