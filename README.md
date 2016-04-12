@@ -11,8 +11,7 @@ This plugin works with PlayFramework `2.4.x` and `2.3.x`. It uses version `8.0.3
 
 ### Play 2.3.x
 
-
-Add the following dependency to your `project/build.sbt` or `project/Build.scala`:
+Add the dependency to your `project/build.sbt` or `project/Build.scala` with the latest `1.x.x` version:
 
     "com.codacy" %% "play-tomcatcp" % "1.0.2"
 
@@ -47,10 +46,9 @@ db.default.password="example"
 
 ### Play 2.4.x
 
+Add the dependency to your `project/build.sbt` or `project/Build.scala` with the latest `2.x.x` version:
 
-Add the following dependency to your `project/build.sbt` or `project/Build.scala`:
-
-    "com.codacy" %% "play-tomcatcp" % "1.0.2"
+    "com.codacy" %% "play-tomcatcp" % "2.0.3"
 
 Now add the following lines to your `conf/application.conf`:
 
