@@ -28,36 +28,40 @@ object TomcatCPConfig {
 
     if (config.getString("url").isEmpty
       || config.getString("driver").isEmpty
-      || config.getString("user").isEmpty
+      || config.getString("username").isEmpty
       || config.getString("password").isEmpty) {
       throw config.reportError("Play Config", "Required property not found")
     }
 
     config.getString("url").map(p.setUrl)
     config.getString("driver").map(p.setDriverClassName)
-    config.getString("user").map(p.setUsername)
+    config.getString("username").map(p.setUsername)
     config.getString("password").map(p.setPassword)
 
-    config.getString("jdbcInterceptors").map(p.setJdbcInterceptors)
-    config.getInt("initialSize").map(p.setInitialSize)
-    config.getInt("minIdle").map(p.setMinIdle)
-    config.getInt("maxIdle").map(p.setMaxIdle)
-    config.getInt("maxActive").map(p.setMaxActive)
-    config.getInt("maxWait").map(p.setMaxWait)
-    config.getBoolean("jmxEnabled").map(p.setJmxEnabled)
-    config.getBoolean("removeAbandoned").map(p.setRemoveAbandoned)
-    config.getInt("removeAbandonedTimeout").map(p.setRemoveAbandonedTimeout)
-    config.getBoolean("logAbandoned").map(p.setLogAbandoned)
-    config.getBoolean("testOnBorrow").map(p.setTestOnBorrow)
-    config.getBoolean("testOnReturn").map(p.setTestOnReturn)
-    config.getBoolean("testWhileIdle").map(p.setTestWhileIdle)
-    config.getBoolean("useEquals").map(p.setUseEquals)
-    config.getBoolean("fairQueue").map(p.setFairQueue)
-    config.getInt("timeBetweenEvictionRunsMillis").map(p.setTimeBetweenEvictionRunsMillis)
-    config.getInt("minEvictableIdleTimeMillis").map(p.setMinEvictableIdleTimeMillis)
-    config.getLong("validationInterval").map(p.setValidationInterval)
-    config.getString("validationQuery").map(p.setValidationQuery)
-    config.getInt("defaultTransactionIsolation").map(p.setDefaultTransactionIsolation)
+    config.getConfig("tomcatcp").map {
+      tomcatConfig =>
+
+        tomcatConfig.getString("jdbcInterceptors").map(p.setJdbcInterceptors)
+        tomcatConfig.getInt("initialSize").map(p.setInitialSize)
+        tomcatConfig.getInt("minIdle").map(p.setMinIdle)
+        tomcatConfig.getInt("maxIdle").map(p.setMaxIdle)
+        tomcatConfig.getInt("maxActive").map(p.setMaxActive)
+        tomcatConfig.getInt("maxWait").map(p.setMaxWait)
+        tomcatConfig.getBoolean("jmxEnabled").map(p.setJmxEnabled)
+        tomcatConfig.getBoolean("removeAbandoned").map(p.setRemoveAbandoned)
+        tomcatConfig.getInt("removeAbandonedTimeout").map(p.setRemoveAbandonedTimeout)
+        tomcatConfig.getBoolean("logAbandoned").map(p.setLogAbandoned)
+        tomcatConfig.getBoolean("testOnBorrow").map(p.setTestOnBorrow)
+        tomcatConfig.getBoolean("testOnReturn").map(p.setTestOnReturn)
+        tomcatConfig.getBoolean("testWhileIdle").map(p.setTestWhileIdle)
+        tomcatConfig.getBoolean("useEquals").map(p.setUseEquals)
+        tomcatConfig.getBoolean("fairQueue").map(p.setFairQueue)
+        tomcatConfig.getInt("timeBetweenEvictionRunsMillis").map(p.setTimeBetweenEvictionRunsMillis)
+        tomcatConfig.getInt("minEvictableIdleTimeMillis").map(p.setMinEvictableIdleTimeMillis)
+        tomcatConfig.getLong("validationInterval").map(p.setValidationInterval)
+        tomcatConfig.getString("validationQuery").map(p.setValidationQuery)
+        tomcatConfig.getInt("defaultTransactionIsolation").map(p.setDefaultTransactionIsolation)
+    }
 
     p
   }

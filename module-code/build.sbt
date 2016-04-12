@@ -8,7 +8,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 libraryDependencies ++= Seq(
   jdbc,
-  "org.apache.tomcat" % "tomcat-jdbc" % "8.0.15",
+  "org.apache.tomcat" % "tomcat-jdbc" % "8.0.33",
   "org.scalatest" %% "scalatest" % "2.2.4" % "test"
 )
 
@@ -38,7 +38,7 @@ publishTo := {
 
 startYear := Some(2014)
 
-description := "TomcatCP Plugin for Play Framework 2.3.x"
+description := "TomcatCP Plugin for Play Framework 2.4.x"
 
 licenses := Seq("The Apache Software License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 

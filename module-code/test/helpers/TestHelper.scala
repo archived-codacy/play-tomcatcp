@@ -5,10 +5,10 @@ import play.api.test.FakeApplication
 
 object TestHelper extends FlatSpec {
 
-  def fakeApplication = {
+  def fakeApplication(moreConfiguration: Map[String, String]) = {
     new FakeApplication(additionalConfiguration = Map(
       "application.mode" -> "test",
       "codacy.discovery.enabled" -> "false"
-    ))
+    ) ++ moreConfiguration)
   }
 }
