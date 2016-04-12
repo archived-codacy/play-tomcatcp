@@ -48,7 +48,7 @@ db.default.password="example"
 
 Add the dependency to your `project/build.sbt` or `project/Build.scala` with the latest `2.x.x` version:
 
-    "com.codacy" %% "play-tomcatcp" % "2.0.3"
+    "com.codacy" %% "play-tomcatcp" % "2.0.0"
 
 Now add the following lines to your `conf/application.conf`:
 
