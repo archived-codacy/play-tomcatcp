@@ -38,7 +38,7 @@ publishTo := {
 
 startYear := Some(2014)
 
-description := "TomcatCP Plugin for Play Framework 2.3.x"
+description := "TomcatCP Plugin for Play Framework 2.4.x"
 
 licenses := Seq("The Apache Software License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
