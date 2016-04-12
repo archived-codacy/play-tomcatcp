@@ -8,7 +8,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 libraryDependencies ++= Seq(
   jdbc,
-  "org.apache.tomcat" % "tomcat-jdbc" % "8.0.15",
+  "org.apache.tomcat" % "tomcat-jdbc" % "8.0.33",
   "org.scalatest" %% "scalatest" % "2.2.4" % "test"
 )
 
