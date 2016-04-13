@@ -64,7 +64,6 @@ object TomcatCPConfig {
         tomcatConfig.getInt("validationQueryTimeout").foreach(p.setValidationQueryTimeout)
         tomcatConfig.getBoolean("defaultAutoCommit").foreach(p.setDefaultAutoCommit(_))
         tomcatConfig.getBoolean("defaultReadOnly").foreach(p.setDefaultReadOnly(_))
-        tomcatConfig.getInt("defaultTransactionIsolation").foreach(p.setDefaultTransactionIsolation)
         tomcatConfig.getString("defaultCatalog").foreach(p.setDefaultCatalog)
         tomcatConfig.getString("driverClassName").foreach(p.setDriverClassName)
         tomcatConfig.getBoolean("testOnConnect").foreach(p.setTestOnConnect)
