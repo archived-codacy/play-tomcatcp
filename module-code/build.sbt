@@ -1,8 +1,8 @@
 name := "play-tomcatcp"
 
-version := "1.0.2"
+version := "2.0.2"
 
-scalaVersion := "2.11.4"
+scalaVersion := "2.11.7"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 

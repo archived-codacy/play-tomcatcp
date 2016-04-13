@@ -61,6 +61,7 @@ object TomcatCPConfig {
         tomcatConfig.getLong("validationInterval").map(p.setValidationInterval)
         tomcatConfig.getString("validationQuery").map(p.setValidationQuery)
         tomcatConfig.getInt("defaultTransactionIsolation").map(p.setDefaultTransactionIsolation)
+        tomcatConfig.getInt("validationQueryTimeout").map(p.setValidationQueryTimeout)
     }
 
     p
