@@ -60,7 +60,7 @@ object TomcatCPConfig {
         tomcatConfig.getInt("minEvictableIdleTimeMillis").foreach(p.setMinEvictableIdleTimeMillis)
         tomcatConfig.getLong("validationInterval").foreach(p.setValidationInterval)
         tomcatConfig.getString("validationQuery").foreach(p.setValidationQuery)
-        tomcatConfig.getInt("defaultTransactionIsolation").foreach(p.setDefaultTransactionIsolation)
+        tomcatConfig.getString("defaultTransactionIsolation").foreach(p.setDefaultTransactionIsolation)
         tomcatConfig.getInt("validationQueryTimeout").foreach(p.setValidationQueryTimeout)
         tomcatConfig.getBoolean("defaultAutoCommit").foreach(p.setDefaultAutoCommit(_))
         tomcatConfig.getBoolean("defaultReadOnly").foreach(p.setDefaultReadOnly(_))
