@@ -40,10 +40,8 @@ public class TomcatCPPool extends ConnectionPool {
     }
 
     public void setHealthCheckRegistry(HealthCheckRegistry healthCheckRegistry) {
-        if (healthCheckRegistry != null) {
             //CodaHaleHealthChecker.registerHealthChecks(this, config, healthCheckRegistry);
             // TODO : to be implemented in the future
-        }
     }
 
     @Override

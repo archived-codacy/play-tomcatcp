@@ -28,6 +28,10 @@ import static java.util.concurrent.TimeUnit.*;
  */
 public interface ClockSource
 {
+   TimeUnit[] TIMEUNITS_DESCENDING = {DAYS, HOURS, MINUTES, SECONDS, MILLISECONDS, MICROSECONDS, NANOSECONDS};
+
+   String[] TIMEUNIT_DISPLAY_VALUES = {"ns", "μs", "ms", "s", "m", "h", "d"};
+
    ClockSource INSTANCE = Factory.create();
 
    /**
@@ -117,9 +121,6 @@ public interface ClockSource
     */
    String elapsedDisplayString(long startTime, long endTime);
 
-   TimeUnit[] TIMEUNITS_DESCENDING = {DAYS, HOURS, MINUTES, SECONDS, MILLISECONDS, MICROSECONDS, NANOSECONDS};
-
-   String[] TIMEUNIT_DISPLAY_VALUES = {"ns", "μs", "ms", "s", "m", "h", "d"};
 
    /**
     * Factory class used to create a platform-specific ClockSource.
