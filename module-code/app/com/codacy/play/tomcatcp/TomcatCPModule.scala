@@ -3,8 +3,8 @@ package com.codacy.play.tomcatcp
 import javax.inject.{Inject, Singleton}
 import javax.sql.DataSource
 
+import com.codacy.play.tomcatcp.pool.TomcatCPDataSource
 import com.typesafe.config.Config
-import org.apache.tomcat.jdbc.pool.{DataSource => TomcatDataSource}
 import play.api._
 import play.api.db.{ConnectionPool, DatabaseConfig}
 import play.api.inject.Module
@@ -42,7 +42,7 @@ class TomcatCPConnectionPool @Inject()(environment: Environment) extends Connect
     Try {
 
       val tomcatConfig = TomcatCPConfig.getConfig(Configuration(config))
-      val dataSource = new TomcatDataSource(tomcatConfig)
+      val dataSource = new TomcatCPDataSource(tomcatConfig)
       play.api.Logger.info("Starting Tomcat connection pool...")
 
       dbConfig.jndiName.foreach { jndiName =>
@@ -66,7 +66,7 @@ class TomcatCPConnectionPool @Inject()(environment: Environment) extends Connect
   override def close(dataSource: DataSource) = {
     Logger.info("Shutting down connection pool.")
     dataSource match {
-      case ds: TomcatDataSource => ds.close()
+      case ds: TomcatCPDataSource => ds.close()
       case _ => sys.error("Unable to close data source: not a Tomcat")
     }
   }
