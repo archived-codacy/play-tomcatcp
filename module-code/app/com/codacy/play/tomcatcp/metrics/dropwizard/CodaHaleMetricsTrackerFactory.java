@@ -21,10 +21,10 @@ import com.codacy.play.tomcatcp.metrics.MetricsTrackerFactory;
 import com.codacy.play.tomcatcp.metrics.PoolStats;
 import com.codahale.metrics.MetricRegistry;
 
-public final class CodahaleMetricsTrackerFactory implements MetricsTrackerFactory {
+public final class CodaHaleMetricsTrackerFactory implements MetricsTrackerFactory {
     private final MetricRegistry registry;
 
-    public CodahaleMetricsTrackerFactory(MetricRegistry registry) {
+    public CodaHaleMetricsTrackerFactory(MetricRegistry registry) {
         this.registry = registry;
     }
 

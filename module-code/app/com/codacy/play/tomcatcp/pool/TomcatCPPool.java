@@ -3,10 +3,9 @@ package com.codacy.play.tomcatcp.pool;
 import com.codacy.play.tomcatcp.metrics.MetricsTracker;
 import com.codacy.play.tomcatcp.metrics.MetricsTrackerFactory;
 import com.codacy.play.tomcatcp.metrics.PoolStats;
-import com.codacy.play.tomcatcp.metrics.dropwizard.CodahaleMetricsTrackerFactory;
+import com.codacy.play.tomcatcp.metrics.dropwizard.CodaHaleMetricsTrackerFactory;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.health.HealthCheckRegistry;
-import com.zaxxer.hikari.metrics.CodahaleHealthChecker;
 import org.apache.tomcat.jdbc.pool.ConnectionPool;
 import org.apache.tomcat.jdbc.pool.PoolConfiguration;
 
@@ -25,7 +24,7 @@ public class TomcatCPPool extends ConnectionPool {
     public void setMetricRegistry(MetricRegistry metricRegistry) {
         this.isRecordMetrics = metricRegistry != null;
         if (isRecordMetrics) {
-            setMetricsTrackerFactory(new CodahaleMetricsTrackerFactory(metricRegistry));
+            setMetricsTrackerFactory(new CodaHaleMetricsTrackerFactory(metricRegistry));
         } else {
             setMetricsTrackerFactory(null);
         }
@@ -42,7 +41,8 @@ public class TomcatCPPool extends ConnectionPool {
 
     public void setHealthCheckRegistry(HealthCheckRegistry healthCheckRegistry) {
         if (healthCheckRegistry != null) {
-            //CodahaleHealthChecker.registerHealthChecks(this, config, healthCheckRegistry);
+            //CodaHaleHealthChecker.registerHealthChecks(this, config, healthCheckRegistry);
+            // TODO : to be implemented in the future
         }
     }
 
