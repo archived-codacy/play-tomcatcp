@@ -25,12 +25,20 @@ package com.codacy.play.tomcatcp.metrics;
  */
 public class MetricsTracker implements AutoCloseable {
 
-    public void recordConnectionAcquiredNanos(final long elapsedAcquiredNanos) {}
+    public void recordConnectionAcquiredNanos(final long elapsedAcquiredNanos) {
+        //check class description
+    }
 
-    public void recordConnectionUsageMillis(final long elapsedBorrowedMillis) {}
+    public void recordConnectionUsageMillis(final long elapsedBorrowedMillis) {
+        //check class description
+    }
 
-    public void recordConnectionTimeout() {}
+    public void recordConnectionTimeout() {
+        //check class description
+    }
 
     @Override
-    public void close() {}
+    public void close() {
+        //check class description
+    }
 }
