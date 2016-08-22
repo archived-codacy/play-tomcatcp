@@ -18,29 +18,19 @@ package com.codacy.play.tomcatcp.metrics;
 
 /**
  * This class only supports realtime, not historical metrics.
+ * <p>
+ * The methods are left empty on purpose to allow a tracker without operations
  *
  * @author Brett Wooldridge
  */
-public class MetricsTracker implements AutoCloseable
-{
-   public MetricsTracker()
-   {
-   }
+public class MetricsTracker implements AutoCloseable {
 
-   public void recordConnectionAcquiredNanos(final long elapsedAcquiredNanos)
-   {
-   }
+    public void recordConnectionAcquiredNanos(final long elapsedAcquiredNanos) {}
 
-   public void recordConnectionUsageMillis(final long elapsedBorrowedMillis)
-   {
-   }
+    public void recordConnectionUsageMillis(final long elapsedBorrowedMillis) {}
 
-   public void recordConnectionTimeout()
-   {
-   }
+    public void recordConnectionTimeout() {}
 
-   @Override
-   public void close()
-   {
-   }
+    @Override
+    public void close() {}
 }
