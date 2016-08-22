@@ -56,6 +56,8 @@ public class TomcatCPDataSource extends DataSource {
                 TCPool.setMetricRegistry(metricRegistry);
             }
         }
+
+        this.metricRegistry = metricRegistry;
     }
 
     public MetricsTrackerFactory getMetricsTrackerFactory() {
@@ -76,6 +78,8 @@ public class TomcatCPDataSource extends DataSource {
                 TCPool.setMetricsTrackerFactory(metricsTrackerFactory);
             }
         }
+
+        this.metricsTrackerFactory = metricsTrackerFactory;
     }
 
     public HealthCheckRegistry getHealthCheckRegistry() {
@@ -92,6 +96,8 @@ public class TomcatCPDataSource extends DataSource {
                 TCPool.setHealthCheckRegistry(healthCheckRegistry);
             }
         }
+
+        this.healthCheckRegistry = healthCheckRegistry;
     }
 
 }
