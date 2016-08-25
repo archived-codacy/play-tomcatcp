@@ -3,8 +3,10 @@ package com.codacy.play.tomcatcp
 import javax.inject.{Inject, Singleton}
 import javax.sql.DataSource
 
+import com.codacy.play.tomcatcp.pool.TomcatCPDataSource
+import com.codahale.metrics.MetricRegistry
+import com.codahale.metrics.health.HealthCheckRegistry
 import com.typesafe.config.Config
-import org.apache.tomcat.jdbc.pool.{DataSource => TomcatDataSource}
 import play.api._
 import play.api.db.{ConnectionPool, DatabaseConfig}
 import play.api.inject.Module
@@ -29,11 +31,17 @@ class TomcatCPModule extends Module {
 trait TomcatCPComponents {
   def environment: Environment
 
-  lazy val connectionPool: ConnectionPool = new TomcatCPConnectionPool(environment)
+  def metricRegistry: Option[MetricRegistry]
+
+  def healthCheckRegistry: Option[HealthCheckRegistry]
+
+  lazy val connectionPool: ConnectionPool = new TomcatCPConnectionPool(environment, metricRegistry, healthCheckRegistry)
 }
 
 @Singleton
-class TomcatCPConnectionPool @Inject()(environment: Environment) extends ConnectionPool {
+class TomcatCPConnectionPool @Inject()(environment: Environment,
+                                       metricRegistry: => Option[MetricRegistry],
+                                       healthCheckRegistry: => Option[HealthCheckRegistry]) extends ConnectionPool {
 
   import TomcatCPConnectionPool._
 
@@ -42,7 +50,10 @@ class TomcatCPConnectionPool @Inject()(environment: Environment) extends Connect
     Try {
 
       val tomcatConfig = TomcatCPConfig.getConfig(Configuration(config))
-      val dataSource = new TomcatDataSource(tomcatConfig)
+      val dataSource = new TomcatCPDataSource(tomcatConfig)
+      metricRegistry.foreach(dataSource.setMetricRegistry)
+      healthCheckRegistry.foreach(dataSource.setHealthCheckRegistry)
+
       play.api.Logger.info("Starting Tomcat connection pool...")
 
       dbConfig.jndiName.foreach { jndiName =>
@@ -66,7 +77,7 @@ class TomcatCPConnectionPool @Inject()(environment: Environment) extends Connect
   override def close(dataSource: DataSource) = {
     Logger.info("Shutting down connection pool.")
     dataSource match {
-      case ds: TomcatDataSource => ds.close()
+      case ds: TomcatCPDataSource => ds.close()
       case _ => sys.error("Unable to close data source: not a Tomcat")
     }
   }
