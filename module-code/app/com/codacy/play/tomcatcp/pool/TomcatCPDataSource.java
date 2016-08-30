@@ -49,7 +49,7 @@ public class TomcatCPDataSource extends DataSource {
 
         boolean isAlreadySet = getMetricRegistry() != null;
 
-        if (pool != null) {
+        if (getPool() != null) {
             if (isAlreadySet) {
                 throw new IllegalStateException("MetricRegistry can only be set one time");
             } else {
@@ -71,7 +71,7 @@ public class TomcatCPDataSource extends DataSource {
 
         boolean isAlreadySet = getMetricsTrackerFactory() != null;
 
-        if (pool != null) {
+        if (getPool() != null) {
             if (isAlreadySet) {
                 throw new IllegalStateException("MetricsTrackerFactory can only be set one time");
             } else {
@@ -89,7 +89,7 @@ public class TomcatCPDataSource extends DataSource {
     public void setHealthCheckRegistry(HealthCheckRegistry healthCheckRegistry) {
         boolean isAlreadySet = getHealthCheckRegistry() != null;
 
-        if (pool != null) {
+        if (getPool() != null) {
             if (isAlreadySet) {
                 throw new IllegalStateException("HealthCheckRegistry can only be set one time");
             } else {
