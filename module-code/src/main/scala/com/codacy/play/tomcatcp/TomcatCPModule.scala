@@ -9,42 +9,26 @@ import com.codahale.metrics.health.HealthCheckRegistry
 import com.typesafe.config.Config
 import play.api._
 import play.api.db.{ConnectionPool, DatabaseConfig}
-import play.api.inject.Module
 import play.api.libs.JNDI
 
 import scala.util.{Failure, Success, Try}
 
 /**
-  * TomcatCP runtime inject module.
-  */
-class TomcatCPModule extends Module {
-  def bindings(environment: Environment, configuration: Configuration) = {
-    Seq(
-      bind[ConnectionPool].to[TomcatCPConnectionPool]
-    )
-  }
-}
-
-/**
   * TomcatCP components (for compile-time injection).
   */
 trait TomcatCPComponents {
-  def environment: Environment
-
   def metricRegistry: Option[MetricRegistry]
 
   def healthCheckRegistry: Option[HealthCheckRegistry]
 
-  lazy val connectionPool: ConnectionPool = new TomcatCPConnectionPool(environment, metricRegistry, healthCheckRegistry)
+  lazy val connectionPool: ConnectionPool = new TomcatCPConnectionPool(metricRegistry, healthCheckRegistry)
 }
 
 @Singleton
-class TomcatCPConnectionPool @Inject()(environment: Environment,
-                                       metricRegistry: => Option[MetricRegistry],
+class TomcatCPConnectionPool @Inject()(metricRegistry: => Option[MetricRegistry],
                                        healthCheckRegistry: => Option[HealthCheckRegistry]) extends ConnectionPool {
 
   import TomcatCPConnectionPool._
-
 
   override def create(name: String, dbConfig: DatabaseConfig, config: Config): DataSource = {
     Try {
@@ -54,7 +38,7 @@ class TomcatCPConnectionPool @Inject()(environment: Environment,
       metricRegistry.foreach(dataSource.setMetricRegistry)
       healthCheckRegistry.foreach(dataSource.setHealthCheckRegistry)
 
-      play.api.Logger.info("Starting Tomcat connection pool...")
+      logger.info("Starting Tomcat connection pool...")
 
       dbConfig.jndiName.foreach { jndiName =>
         JNDI.initialContext.rebind(jndiName, dataSource)
@@ -75,7 +59,7 @@ class TomcatCPConnectionPool @Inject()(environment: Environment,
     * @param dataSource the data source to close
     */
   override def close(dataSource: DataSource) = {
-    Logger.info("Shutting down connection pool.")
+    logger.info("Shutting down connection pool.")
     dataSource match {
       case ds: TomcatCPDataSource => ds.close()
       case _ => sys.error("Unable to close data source: not a Tomcat")
