@@ -1,17 +1,15 @@
 name := "play-tomcatcp"
 
-version := "2.0.2"
+version := "3.0.0-SNAPSHOT"
 
 scalaVersion := "2.11.8"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
-
 libraryDependencies ++= Seq(
-  jdbc,
-  "org.apache.tomcat" % "tomcat-jdbc" % "8.0.33",
-  "io.dropwizard.metrics" % "metrics-core" % "3.1.2",
-  "io.dropwizard.metrics" % "metrics-healthchecks" % "3.1.2",
-  "org.scalatest" %% "scalatest" % "2.2.4" % "test"
+  "com.typesafe.play"     %% "play-jdbc"            % "2.5.10",
+  "org.apache.tomcat"      % "tomcat-jdbc"          % "8.5.9",
+  "io.dropwizard.metrics"  % "metrics-core"         % "3.1.2",
+  "io.dropwizard.metrics"  % "metrics-healthchecks" % "3.1.2",
+  "org.scalatest"         %% "scalatest"            % "2.2.4"  % "test"
 )
 
 resolvers ++= Seq(
@@ -40,7 +38,7 @@ publishTo := {
 
 startYear := Some(2014)
 
-description := "TomcatCP Plugin for Play Framework 2.4.x"
+description := "TomcatCP Plugin for Play Framework 2.5.x"
 
 licenses := Seq("The Apache Software License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
