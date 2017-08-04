@@ -11,7 +11,8 @@ libraryDependencies ++= Seq(
   "org.apache.tomcat" % "tomcat-jdbc" % "8.5.19",
   "io.dropwizard.metrics" % "metrics-core" % "3.1.2",
   "io.dropwizard.metrics" % "metrics-healthchecks" % "3.1.2",
-  "org.scalatest" %% "scalatest" % "2.2.4" % "test"
+  "org.scalatest" %% "scalatest" % "2.2.4" % "test",
+  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.1" % "test"
 )
 
 resolvers ++= Seq(
