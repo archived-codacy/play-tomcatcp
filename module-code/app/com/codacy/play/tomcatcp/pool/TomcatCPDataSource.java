@@ -32,6 +32,7 @@ public class TomcatCPDataSource extends DataSource {
             return pool;
         } else {
             TCPool = new TomcatCPPool(poolProperties);
+            TCPool.setMetricRegistry(null);
             pool = TCPool;
             return pool;
         }
