@@ -50,7 +50,7 @@ class TomcatCPConnectionPool @Inject()(environment: Environment,
     Try {
 
       val tomcatConfig = TomcatCPConfig.getConfig(Configuration(config))
-      val dataSource = new TomcatCPDataSource(tomcatConfig)
+      val dataSource = new TomcatCPDataSource(name, tomcatConfig)
       metricRegistry.foreach(dataSource.setMetricRegistry)
       healthCheckRegistry.foreach(dataSource.setHealthCheckRegistry)
 

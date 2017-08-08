@@ -2,15 +2,17 @@ name := "play-tomcatcp"
 
 version := "2.0.2"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.11.11"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
+lazy val dropwizardVersion = "3.1.2"
+
 libraryDependencies ++= Seq(
   jdbc,
-  "org.apache.tomcat" % "tomcat-jdbc" % "8.0.33",
-  "io.dropwizard.metrics" % "metrics-core" % "3.1.2",
-  "io.dropwizard.metrics" % "metrics-healthchecks" % "3.1.2",
+  "org.apache.tomcat" % "tomcat-jdbc" % "8.0.45",
+  "io.dropwizard.metrics" % "metrics-core" % dropwizardVersion,
+  "io.dropwizard.metrics" % "metrics-healthchecks" % dropwizardVersion,
   "org.scalatest" %% "scalatest" % "2.2.4" % "test"
 )
 
