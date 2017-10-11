@@ -1,8 +1,5 @@
-.*
-!.gitignore
-!.java-version
-!.travis.yml
 *.iml
+.idea
 project/target
 project/project
 target
@@ -66,4 +63,3 @@ server.pid
 *.eml
 /dist/
 .cache
-
