@@ -5,75 +5,77 @@
 [![Circle CI](https://circleci.com/gh/codacy/play-tomcatcp.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/codacy/play-tomcatcp)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.codacy/play-tomcatcp_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.codacy/play-tomcatcp_2.11)
 
-This plugin works with PlayFramework `2.4.x` and `2.3.x`. It uses version `8.0.33` of Tomcat JDBC CP.
+This is a generic plugin supporting version `8.8.19` of Tomcat JDBC CP.
+
+### Frameworks:
+* PlayFramework `2.4.x`
+* PlayFramework `2.6.x`
+
+### Metrics:
+* Dropwizard `3.2.x`
 
 ## Usage
 
-### Play 2.3.x
+### Base
 
-Add the dependency to your `project/build.sbt` or `project/Build.scala` with the latest `1.x.x` version:
+Add the dependency to your `build.sbt`:
 
-    "com.codacy" %% "play-tomcatcp" % "1.0.2"
+* `"com.codacy" %% "codacy-tomcatcp" % "<latest-version>"`
 
-#### Step 2: Disable default `dbplugin`
+### PlayFramework
 
-Add the following line to your `conf/application.conf`:
+1. Add the dependency to your `build.sbt`:
 
-    dbplugin=disabled
+* `"com.codacy" %% "codacy-tomcatcp-play24" % "<latest-version>"`
+    
+**OR**    
+    
+* `"com.codacy" %% "codacy-tomcatcp-play26" % "<latest-version>"`
 
-This will disable dbplugin and avoids that BoneCP creates useless connections.
-
-#### Step 3: Enable TomcatCP Plugin
-
-Add the following line to your `conf/play.plugins`:
-
-    200:com.codacy.play.tomcatcp.TomcatCPPlugin
-
-#### Step 4: Configure TomcatCP
-
-For detailed descriptions on each option check the [Tomcat JDBC CP Configuration](https://tomcat.apache.org/tomcat-8.0-doc/jdbc-pool.html#Attributes) page.
-
-##### Example Configuration:
+2. Now add the following lines to your `conf/application.conf`:
 
 ```
-dbplugin=disabled
-
-db.default.driver=org.example.Driver
-db.default.url="jdbc:postgresql://localhost:5432/exampledb"
-db.default.user="example"
-db.default.password="example"
+play.modules.disabled += "play.api.db.HikariCPModule"
+play.modules.enabled += "com.codacy.tomcatcp.play.TomcatCPModule"
 ```
 
-### Play 2.4.x
+>This will disable Hikari and enable the Tomcat plugin.
 
-Add the dependency to your `project/build.sbt` or `project/Build.scala` with the latest `2.x.x` version:
+### Metrics
 
-    "com.codacy" %% "play-tomcatcp" % "2.0.0"
+* `"com.codacy" %% "codacy-tomcatcp-dropwizard" % "<latest-version>"`
 
-Now add the following lines to your `conf/application.conf`:
+### Custom Options
 
-    play.modules.disabled += "play.api.db.HikariCPModule"
-    play.modules.enabled += "com.codacy.play.tomcatcp.TomcatCPModule"
+If you have any problems with the connection validation query, defining a custom validator might help.
 
-This will disable Hikari and enable the Tomcat plugin.
+For example if you define a `validatorClassName` as described bellow it will be used instead of the default.
 
-##### Example Configuration:
+We have `com.codacy.tomcatcp.validators.TomcatValidator` that uses a timeout
+to avoid blocking for long times while validating the connection.
+
+### Example Configuration:
 
 ```
-  driver = org.example.Driver
-  url = "jdbc:postgresql://localhost:5432/exampledb"
-  username = "example"
-  password = "example"
+driver = org.example.Driver
+url = "jdbc:postgresql://localhost:5432/exampledb"
+username = "example"
+password = "example"
 
-  tomcatcp {
-    testOnBorrow = true
-    validationQuery = "SELECT 1;"
-    minIdle = 2
-    maxActive = 5
-  }
+tomcatcp {
+testOnBorrow = true
+validationInterval = 5000
+testWhileIdle = false
+validatorClassName = "com.codacy.tomcatcp.validators.TomcatValidator"
+
+initialSize = 2
+minIdle = 2
+maxActive = 5
+maxIdle = 5
+}
 ```
 
-###Additional configuration
+### Additional configuration
 
 For detailed descriptions on each option check the [Tomcat JDBC CP Configuration](https://tomcat.apache.org/tomcat-8.0-doc/jdbc-pool.html#Attributes) page.
 
