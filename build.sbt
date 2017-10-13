@@ -9,7 +9,7 @@ lazy val aggregatedProjects: Seq[ProjectReference] = Seq(
   codacyTomcatCPPlay24, codacyTomcatCPPlay26
 )
 
-lazy val base = project.in(file("."))
+lazy val codacyTomcat = project.in(file("."))
   .settings(name := "root")
   .aggregate(aggregatedProjects: _*)
   .settings(
@@ -70,17 +70,17 @@ lazy val codacyTomcatCPDropwizard = project.in(file("dropwizard"))
 
 // Publish Settings
 
-organizationName := "Codacy"
+organizationName in ThisBuild := "Codacy"
 
-organizationHomepage := Some(new URL("https://www.codacy.com"))
+organizationHomepage in ThisBuild := Some(new URL("https://www.codacy.com"))
 
-publishMavenStyle := true
+publishMavenStyle in ThisBuild := true
 
 publishArtifact in Test := false
 
-pomIncludeRepository := { _ => false }
+pomIncludeRepository in ThisBuild := { _ => false }
 
-publishTo := {
+publishTo in ThisBuild := {
   val nexus = "https://oss.sonatype.org/"
   if (version.value.trim.endsWith("SNAPSHOT"))
     Some("snapshots" at nexus + "content/repositories/snapshots")
@@ -88,15 +88,15 @@ publishTo := {
     Some("releases" at nexus + "service/local/staging/deploy/maven2")
 }
 
-startYear := Some(2014)
+startYear in ThisBuild := Some(2014)
 
-description := "TomcatCP Plugin"
+description in ThisBuild := "TomcatCP Plugin"
 
-licenses := Seq("The Apache Software License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
+licenses in ThisBuild := Seq("The Apache Software License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
 
-homepage := Some(url("http://codacy.github.io/play-tomcatcp/"))
+homepage in ThisBuild := Some(url("http://codacy.github.io/play-tomcatcp/"))
 
-pomExtra :=
+pomExtra in ThisBuild :=
   <scm>
     <url>https://github.com/codacy/play-tomcatcp</url>
     <connection>scm:git:git@github.com:codacy/play-tomcatcp.git</connection>
