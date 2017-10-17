@@ -32,7 +32,9 @@ public class TomcatCPPool extends ConnectionPool {
         try {
             super.close(force);
         } finally {
-            metricsTracker.close();
+            if (metricsTracker != null) {
+                metricsTracker.close();
+            }
         }
     }
 
