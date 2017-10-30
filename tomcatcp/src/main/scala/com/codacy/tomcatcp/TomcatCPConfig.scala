@@ -10,7 +10,7 @@ object TomcatCPConfig {
   def getConfig(config: Config): PoolProperties = {
     val p = new PoolProperties
 
-    Seq("url", "driver", "username", "password")
+    Seq("url", "driver", "password")
       .foreach { path =>
         if (config.as[Option[String]](path).isEmpty) {
           throw new Missing(path)
@@ -19,8 +19,16 @@ object TomcatCPConfig {
 
     config.as[Option[String]]("url").foreach(p.setUrl)
     config.as[Option[String]]("driver").foreach(p.setDriverClassName)
-    config.as[Option[String]]("username").foreach(p.setUsername)
     config.as[Option[String]]("password").foreach(p.setPassword)
+
+    val userNameValues = Seq("username", "user")
+      .flatMap(config.as[Option[String]](_))
+
+    if (userNameValues.isEmpty) {
+      throw new Missing(userNameValues.head)
+    }
+
+    userNameValues.headOption.foreach(p.setUsername)
 
     config.as[Option[Config]]("tomcatcp").foreach {
       tomcatConfig =>

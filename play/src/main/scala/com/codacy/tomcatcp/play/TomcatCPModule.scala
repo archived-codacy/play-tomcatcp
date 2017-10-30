@@ -48,7 +48,7 @@ class TomcatCPConnectionPool @Inject()(environment: Environment,
       val dataSource = new TomcatCPDataSource(tomcatConfig)
       metricsTrackerFactory.foreach(dataSource.setMetricsTrackerFactory)
 
-      play.api.Logger.info("Starting Tomcat connection pool...")
+      logger.info("Starting Tomcat connection pool...")
 
       dbConfig.jndiName.foreach { jndiName =>
         JNDI.initialContext.rebind(jndiName, dataSource)
