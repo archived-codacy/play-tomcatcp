@@ -6,7 +6,7 @@ resolvers in ThisBuild += Resolver.typesafeRepo("releases")
 
 lazy val aggregatedProjects: Seq[ProjectReference] = Seq(
   codacyTomcatCP, codacyTomcatCPDropwizard,
-  codacyTomcatCPPlay24, codacyTomcatCPPlay26
+  codacyTomcatCPPlay24, codacyTomcatCPPlay26, codacyTomcatCPPlay243
 )
 
 lazy val codacyTomcat = project.in(file("."))
@@ -52,6 +52,7 @@ def generatePlayProject(projectName: String, playVersion: String) = {
     .aggregate(codacyTomcatCP)
 }
 
+lazy val codacyTomcatCPPlay243 = generatePlayProject("codacy-tomcatcp-play243", "2.4.3")
 lazy val codacyTomcatCPPlay24 = generatePlayProject("codacy-tomcatcp-play24", "2.4.11")
 lazy val codacyTomcatCPPlay26 = generatePlayProject("codacy-tomcatcp-play26", "2.6.6")
 
