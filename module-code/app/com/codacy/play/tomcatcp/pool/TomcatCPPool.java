@@ -10,38 +10,28 @@ import org.apache.tomcat.jdbc.pool.ConnectionPool;
 import org.apache.tomcat.jdbc.pool.PoolConfiguration;
 
 import java.sql.SQLException;
+import java.util.Optional;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class TomcatCPPool extends ConnectionPool {
-    private boolean isRecordMetrics;
-    private MetricsTracker metricsTracker;
+    private Optional<MetricsTracker> metricsTracker = Optional.empty();
 
     public TomcatCPPool(PoolConfiguration prop) throws SQLException {
         super(prop);
     }
 
     public void setMetricRegistry(MetricRegistry metricRegistry) {
-        this.isRecordMetrics = metricRegistry != null;
-        if (isRecordMetrics) {
-            setMetricsTrackerFactory(new CodaHaleMetricsTrackerFactory(metricRegistry));
-        } else {
-            setMetricsTrackerFactory(null);
-        }
+        setMetricsTrackerFactory(new CodaHaleMetricsTrackerFactory(metricRegistry));
     }
 
     public void setMetricsTrackerFactory(MetricsTrackerFactory metricsTrackerFactory) {
-        this.isRecordMetrics = metricsTrackerFactory != null;
-        if (isRecordMetrics) {
-            this.metricsTracker = metricsTrackerFactory.create(getName(), getPoolStats());
-        } else {
-            this.metricsTracker = new MetricsTracker();
-        }
+        this.metricsTracker = Optional.of(metricsTrackerFactory.create(getName(), getPoolStats()));
     }
 
     public void setHealthCheckRegistry(HealthCheckRegistry healthCheckRegistry) {
-            //CodaHaleHealthChecker.registerHealthChecks(this, config, healthCheckRegistry);
-            // TODO : to be implemented in the future
+        //CodaHaleHealthChecker.registerHealthChecks(this, config, healthCheckRegistry);
+        // TODO : to be implemented in the future
     }
 
     @Override
@@ -49,7 +39,7 @@ public class TomcatCPPool extends ConnectionPool {
         try {
             super.close(force);
         } finally {
-            metricsTracker.close();
+            metricsTracker.ifPresent(MetricsTracker::close);
         }
     }
 

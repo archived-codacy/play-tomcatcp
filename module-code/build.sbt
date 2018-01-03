@@ -1,6 +1,6 @@
 name := "play-tomcatcp"
 
-version := "2.0.2"
+version := "2.3.1"
 
 scalaVersion := "2.11.11"
 
