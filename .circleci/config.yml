@@ -1,0 +1,23 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/play-tomcatcp/module-code
+    docker:
+      - image: codestar/circleci-scala-sbt-git:scala-2.11.11-sbt-0.13.15
+    steps:
+      - checkout
+          path: ~/play-tomcatcp
+      - restore_cache:
+          keys:
+            - scala-ivy2-sbt
+      - run: sbt clean
+      - run: sbt compile test:compile
+      - save_cache:
+          key: scala-ivy2-sbt
+          paths:
+            - ~/.ivy2
+            - ~/.sbt
+      - run: sbt coverage test
+      - run: sbt coverageReport
+      - run: sbt coverageAggregate
+      - run: sbt codacyCoverage
