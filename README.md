@@ -3,13 +3,14 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/b67192ff30fb48bdb4aab2abb486ad26)](https://www.codacy.com/app/Codacy/play-tomcatcp)
 [![Codacy Badge](https://api.codacy.com/project/badge/coverage/b67192ff30fb48bdb4aab2abb486ad26)](https://www.codacy.com/app/Codacy/play-tomcatcp)
 [![Circle CI](https://circleci.com/gh/codacy/play-tomcatcp.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/codacy/play-tomcatcp)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.codacy/play-tomcatcp_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.codacy/play-tomcatcp_2.11)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.codacy/codacy-tomcatcp_2.11/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.codacy/codacy-tomcatcp_2.11)
 
 This is a generic plugin supporting version `8.8.19` of Tomcat JDBC CP.
 
 ### Frameworks:
 * PlayFramework `2.4.x`
 * PlayFramework `2.6.x`
+* PlayFramework `2.4.3`
 
 ### Metrics:
 * Dropwizard `3.2.x`
@@ -31,6 +32,10 @@ Add the dependency to your `build.sbt`:
 **OR**    
     
 * `"com.codacy" %% "codacy-tomcatcp-play26" % "<latest-version>"`
+
+**OR**
+
+* `"com.codacy" %% "codacy-tomcatcp-play243" % "<latest-version>"`
 
 2. Now add the following lines to your `conf/application.conf`:
 
@@ -63,15 +68,15 @@ username = "example"
 password = "example"
 
 tomcatcp {
-testOnBorrow = true
-validationInterval = 5000
-testWhileIdle = false
-validatorClassName = "com.codacy.tomcatcp.validators.TomcatValidator"
+  testOnBorrow = true
+  validationInterval = 5000
+  testWhileIdle = false
+  validatorClassName = "com.codacy.tomcatcp.validators.TomcatValidator"
 
-initialSize = 2
-minIdle = 2
-maxActive = 5
-maxIdle = 5
+  initialSize = 2
+  minIdle = 2
+  maxActive = 5
+  maxIdle = 5
 }
 ```
 
