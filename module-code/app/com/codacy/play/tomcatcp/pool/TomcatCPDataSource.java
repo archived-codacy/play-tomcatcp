@@ -20,6 +20,7 @@ public class TomcatCPDataSource extends DataSource {
 
     public TomcatCPDataSource(String databaseName) {
         super();
+        this.databaseName = databaseName;
     }
 
 
