@@ -15,10 +15,12 @@ import java.util.Optional;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class TomcatCPPool extends ConnectionPool {
+    private String databaseName;
     private Optional<MetricsTracker> metricsTracker = Optional.empty();
 
-    public TomcatCPPool(PoolConfiguration prop) throws SQLException {
+    public TomcatCPPool(String databaseName, PoolConfiguration prop) throws SQLException {
         super(prop);
+        this.databaseName = databaseName;
     }
 
     public void setMetricRegistry(MetricRegistry metricRegistry) {
@@ -26,7 +28,9 @@ public class TomcatCPPool extends ConnectionPool {
     }
 
     public void setMetricsTrackerFactory(MetricsTrackerFactory metricsTrackerFactory) {
-        this.metricsTracker = Optional.of(metricsTrackerFactory.create(getName(), getPoolStats()));
+        this.metricsTracker = Optional.of(
+                metricsTrackerFactory.create("tomcatcp." + databaseName, getPoolStats())
+        );
     }
 
     public void setHealthCheckRegistry(HealthCheckRegistry healthCheckRegistry) {
