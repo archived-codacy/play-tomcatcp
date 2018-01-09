@@ -15,15 +15,17 @@ public class TomcatCPDataSource extends DataSource {
     private MetricRegistry metricRegistry;
     private HealthCheckRegistry healthCheckRegistry;
     private TomcatCPPool TCPool;
+    private String databaseName;
 
 
-    public TomcatCPDataSource() {
+    public TomcatCPDataSource(String databaseName) {
         super();
     }
 
 
-    public TomcatCPDataSource(PoolConfiguration poolProperties) {
+    public TomcatCPDataSource(String databaseName, PoolConfiguration poolProperties) {
         super(poolProperties);
+        this.databaseName = databaseName;
     }
 
     @Override
@@ -31,7 +33,7 @@ public class TomcatCPDataSource extends DataSource {
         if (pool != null) {
             return pool;
         } else {
-            TCPool = new TomcatCPPool(poolProperties);
+            TCPool = new TomcatCPPool(databaseName, poolProperties);
             pool = TCPool;
             return pool;
         }
