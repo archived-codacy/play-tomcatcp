@@ -45,7 +45,7 @@ class TomcatCPConnectionPool @Inject()(environment: Environment,
   override def create(name: String, dbConfig: DatabaseConfig, config: Config): DataSource = {
     Try {
       val tomcatConfig = TomcatCPConfig.getConfig(config)
-      val dataSource = new TomcatCPDataSource(tomcatConfig)
+      val dataSource = new TomcatCPDataSource(name, tomcatConfig)
       metricsTrackerFactory.foreach(dataSource.setMetricsTrackerFactory)
 
       logger.info("Starting Tomcat connection pool...")

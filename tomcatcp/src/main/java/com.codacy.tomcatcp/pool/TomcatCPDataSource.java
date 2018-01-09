@@ -11,14 +11,16 @@ public class TomcatCPDataSource extends DataSource {
 
     private MetricsTrackerFactory metricsTrackerFactory;
     private TomcatCPPool TCPool;
+    private String databaseName;
 
-    public TomcatCPDataSource() {
+    public TomcatCPDataSource(String databaseName) {
         super();
+        this.databaseName = databaseName;
     }
 
-
-    public TomcatCPDataSource(PoolConfiguration poolProperties) {
+    public TomcatCPDataSource(String databaseName, PoolConfiguration poolProperties) {
         super(poolProperties);
+        this.databaseName = databaseName;
     }
 
     @Override
@@ -26,13 +28,13 @@ public class TomcatCPDataSource extends DataSource {
         if (pool != null) {
             return pool;
         } else {
-            TCPool = new TomcatCPPool(poolProperties);
+            TCPool = new TomcatCPPool(databaseName, poolProperties);
             pool = TCPool;
             return pool;
         }
     }
 
-    public MetricsTrackerFactory getMetricsTrackerFactory() {
+    private MetricsTrackerFactory getMetricsTrackerFactory() {
         return metricsTrackerFactory;
     }
 
