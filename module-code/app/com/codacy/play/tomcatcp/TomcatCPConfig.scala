@@ -41,7 +41,6 @@ object TomcatCPConfig {
     config.getConfig("tomcatcp").foreach {
       tomcatConfig =>
 
-        tomcatConfig.getString("name").foreach(p.setName)
         tomcatConfig.getString("jdbcInterceptors").foreach(p.setJdbcInterceptors)
         tomcatConfig.getInt("initialSize").foreach(p.setInitialSize)
         tomcatConfig.getInt("minIdle").foreach(p.setMinIdle)

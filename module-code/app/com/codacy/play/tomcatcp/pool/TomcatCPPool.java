@@ -29,7 +29,7 @@ public class TomcatCPPool extends ConnectionPool {
 
     public void setMetricsTrackerFactory(MetricsTrackerFactory metricsTrackerFactory) {
         this.metricsTracker = Optional.of(
-                metricsTrackerFactory.create("tomcatcp." + databaseName + "." + getName(), getPoolStats())
+                metricsTrackerFactory.create("tomcatcp." + databaseName, getPoolStats())
         );
     }
 
