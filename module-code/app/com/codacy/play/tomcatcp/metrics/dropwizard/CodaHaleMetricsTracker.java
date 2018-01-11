@@ -44,7 +44,7 @@ public final class CodaHaleMetricsTracker extends MetricsTracker {
         this.connectionUsage = registry.histogram(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_USAGE));
         this.connectionTimeoutMeter = registry.meter(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_TIMEOUT_RATE));
 
-        registry.register(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_TOTAL_CONNECTIONS),
+        register(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_TOTAL_CONNECTIONS),
                 new Gauge<Integer>() {
                     @Override
                     public Integer getValue() {
@@ -52,7 +52,7 @@ public final class CodaHaleMetricsTracker extends MetricsTracker {
                     }
                 });
 
-        registry.register(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_IDLE_CONNECTIONS),
+        register(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_IDLE_CONNECTIONS),
                 new Gauge<Integer>() {
                     @Override
                     public Integer getValue() {
@@ -60,7 +60,7 @@ public final class CodaHaleMetricsTracker extends MetricsTracker {
                     }
                 });
 
-        registry.register(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_ACTIVE_CONNECTIONS),
+        register(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_ACTIVE_CONNECTIONS),
                 new Gauge<Integer>() {
                     @Override
                     public Integer getValue() {
@@ -68,7 +68,7 @@ public final class CodaHaleMetricsTracker extends MetricsTracker {
                     }
                 });
 
-        registry.register(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_PENDING_CONNECTIONS),
+        register(MetricRegistry.name(poolName, METRIC_CATEGORY, METRIC_NAME_PENDING_CONNECTIONS),
                 new Gauge<Integer>() {
                     @Override
                     public Integer getValue() {
@@ -118,5 +118,13 @@ public final class CodaHaleMetricsTracker extends MetricsTracker {
 
     public Histogram getConnectionDurationHistogram() {
         return connectionUsage;
+    }
+
+    private <T extends Metric> void register(String name, T metric) {
+        try {
+            registry.register(name, metric);
+        } catch (IllegalArgumentException e) {
+            // Don't blow if metric already exists
+        }
     }
 }
