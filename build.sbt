@@ -5,8 +5,9 @@ scalacOptions in ThisBuild := Seq("-deprecation", "-feature", "-unchecked", "-Yw
 resolvers in ThisBuild += Resolver.typesafeRepo("releases")
 
 lazy val aggregatedProjects: Seq[ProjectReference] = Seq(
-  codacyTomcatCP, codacyTomcatCPDropwizard,
-  codacyTomcatCPPlay24, codacyTomcatCPPlay26, codacyTomcatCPPlay243
+  codacyTomcatCP, 
+  codacyTomcatCPDropwizard3, codacyTomcatCPDropwizard4,
+  codacyTomcatCPPlay243, codacyTomcatCPPlay24, codacyTomcatCPPlay25, codacyTomcatCPPlay26
 )
 
 lazy val codacyTomcat = project.in(file("."))
@@ -22,9 +23,9 @@ lazy val codacyTomcatCP = project.in(file("tomcatcp"))
   .settings(name := "codacy-tomcatcp")
   .settings(
     libraryDependencies ++= Seq(
-      "org.apache.tomcat" % "tomcat-jdbc" % "8.5.19",
-      "org.scalatest" %% "scalatest" % "2.2.4" % "test",
-      "com.iheart" %% "ficus" % "1.4.2"
+      "org.apache.tomcat" % "tomcat-jdbc" % "9.0.2",
+      "org.scalatest" %% "scalatest" % "3.0.4" % Test,
+      "com.iheart" %% "ficus" % "1.4.3"
     )
   )
 
@@ -54,20 +55,33 @@ def generatePlayProject(projectName: String, playVersion: String) = {
 
 lazy val codacyTomcatCPPlay243 = generatePlayProject("codacy-tomcatcp-play243", "2.4.3")
 lazy val codacyTomcatCPPlay24 = generatePlayProject("codacy-tomcatcp-play24", "2.4.11")
-lazy val codacyTomcatCPPlay26 = generatePlayProject("codacy-tomcatcp-play26", "2.6.6")
+lazy val codacyTomcatCPPlay25 = generatePlayProject("codacy-tomcatcp-play25", "2.5.18")
+lazy val codacyTomcatCPPlay26 = generatePlayProject("codacy-tomcatcp-play26", "2.6.10")
 
-val dropwizardVersion = "3.2.5"
-
-lazy val codacyTomcatCPDropwizard = project.in(file("dropwizard"))
-  .settings(name := "codacy-tomcatcp-dropwizard")
-  .settings(
-    libraryDependencies ++= Seq(
-      "io.dropwizard.metrics" % "metrics-core" % dropwizardVersion,
-      "io.dropwizard.metrics" % "metrics-healthchecks" % dropwizardVersion
+def generateDropwizardProject(projectName: String, dropwizardVersion: String) = {
+  Project(projectName, file(s"dropwizard/target/$projectName"))
+    .settings(
+      /**
+        * Define the scala sources and resources relative to the sub-directory the project source. The
+        * individual projects have their sources defined in `./target/${projectName}`,
+        * therefore `./src` lives two directories above base. Also do this for `resources`
+        * etc, if needed.
+        */
+      scalaSource in Compile := baseDirectory.value / ".." / ".." / "src" / "main" / "scala",
+      scalaSource in Test := baseDirectory.value / ".." / ".." / "src" / "test" / "scala",
+      resourceDirectory in Compile := baseDirectory.value / ".." / ".." / "src" / "main" / "resources",
+      resourceDirectory in Test := baseDirectory.value / ".." / ".." / "src" / "test" / "resources",
+      libraryDependencies ++= Seq(
+        "io.dropwizard.metrics" % "metrics-core" % dropwizardVersion,
+        "io.dropwizard.metrics" % "metrics-healthchecks" % dropwizardVersion
+      )
     )
-  )
-  .dependsOn(codacyTomcatCP)
-  .aggregate(codacyTomcatCP)
+    .dependsOn(codacyTomcatCP)
+    .aggregate(codacyTomcatCP)
+}
+
+lazy val codacyTomcatCPDropwizard3 = generateDropwizardProject("codacy-tomcatcp-dropwizard3", "3.2.5")
+lazy val codacyTomcatCPDropwizard4 = generateDropwizardProject("codacy-tomcatcp-dropwizard4", "4.0.1")
 
 // Publish Settings
 

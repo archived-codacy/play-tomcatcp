@@ -8,12 +8,14 @@
 This is a generic plugin supporting version `8.8.19` of Tomcat JDBC CP.
 
 ### Frameworks:
-* PlayFramework `2.4.x`
-* PlayFramework `2.6.x`
 * PlayFramework `2.4.3`
+* PlayFramework `2.4.x`
+* PlayFramework `2.5.x`
+* PlayFramework `2.6.x`
 
 ### Metrics:
 * Dropwizard `3.2.x`
+* Dropwizard `4.0.x`
 
 ## Usage
 
@@ -27,15 +29,19 @@ Add the dependency to your `build.sbt`:
 
 1. Add the dependency to your `build.sbt`:
 
+* `"com.codacy" %% "codacy-tomcatcp-play243" % "<latest-version>"`
+    
+**OR**    
+    
 * `"com.codacy" %% "codacy-tomcatcp-play24" % "<latest-version>"`
     
 **OR**    
     
+* `"com.codacy" %% "codacy-tomcatcp-play25" % "<latest-version>"`
+    
+**OR**    
+    
 * `"com.codacy" %% "codacy-tomcatcp-play26" % "<latest-version>"`
-
-**OR**
-
-* `"com.codacy" %% "codacy-tomcatcp-play243" % "<latest-version>"`
 
 2. Now add the following lines to your `conf/application.conf`:
 
@@ -48,7 +54,11 @@ play.modules.enabled += "com.codacy.tomcatcp.play.TomcatCPModule"
 
 ### Metrics
 
-* `"com.codacy" %% "codacy-tomcatcp-dropwizard" % "<latest-version>"`
+* `"com.codacy" %% "codacy-tomcatcp-dropwizard3" % "<latest-version>"`
+    
+**OR**    
+    
+* `"com.codacy" %% "codacy-tomcatcp-dropwizard4" % "<latest-version>"`
 
 ### Custom Options
 

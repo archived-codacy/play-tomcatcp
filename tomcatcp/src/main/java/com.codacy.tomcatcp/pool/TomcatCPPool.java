@@ -11,17 +11,18 @@ import java.sql.SQLException;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class TomcatCPPool extends ConnectionPool {
-    private boolean isRecordMetrics;
+    private String databaseName;
     private MetricsTracker metricsTracker;
 
-    public TomcatCPPool(PoolConfiguration prop) throws SQLException {
+    TomcatCPPool(String databaseName, PoolConfiguration prop) throws SQLException {
         super(prop);
+        this.databaseName = databaseName;
     }
 
     public void setMetricsTrackerFactory(MetricsTrackerFactory metricsTrackerFactory) {
-        this.isRecordMetrics = metricsTrackerFactory != null;
+        boolean isRecordMetrics = metricsTrackerFactory != null;
         if (isRecordMetrics) {
-            this.metricsTracker = metricsTrackerFactory.create(getName(), getPoolStats());
+            this.metricsTracker = metricsTrackerFactory.create("tomcatcp." + databaseName, getPoolStats());
         } else {
             this.metricsTracker = new MetricsTracker();
         }
@@ -49,4 +50,5 @@ public class TomcatCPPool extends ConnectionPool {
             }
         };
     }
+
 }
