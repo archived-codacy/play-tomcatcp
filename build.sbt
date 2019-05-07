@@ -55,8 +55,9 @@ def generatePlayProject(projectName: String, playVersion: String) = {
 
 lazy val codacyTomcatCPPlay243 = generatePlayProject("codacy-tomcatcp-play243", "2.4.3")
 lazy val codacyTomcatCPPlay24 = generatePlayProject("codacy-tomcatcp-play24", "2.4.11")
-lazy val codacyTomcatCPPlay25 = generatePlayProject("codacy-tomcatcp-play25", "2.5.18")
-lazy val codacyTomcatCPPlay26 = generatePlayProject("codacy-tomcatcp-play26", "2.6.10")
+lazy val codacyTomcatCPPlay25 = generatePlayProject("codacy-tomcatcp-play25", "2.5.19")
+lazy val codacyTomcatCPPlay26 = generatePlayProject("codacy-tomcatcp-play26", "2.6.13")
+lazy val codacyTomcatCPPlay27 = generatePlayProject("codacy-tomcatcp-play27", "2.7.2")
 
 def generateDropwizardProject(projectName: String, dropwizardVersion: String) = {
   Project(projectName, file(s"dropwizard/target/$projectName"))
