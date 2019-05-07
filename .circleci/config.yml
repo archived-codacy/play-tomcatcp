@@ -1,22 +1,45 @@
-version: 2
-jobs:
-  build:
-    working_directory: ~/play-tomcatcp
-    docker:
-      - image: codestar/circleci-scala-sbt-git:scala-2.11.11-sbt-0.13.15
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - scala-ivy2-sbt
-      - run: sbt clean
-      - run: sbt compile test:compile
-      - save_cache:
-          key: scala-ivy2-sbt
-          paths:
-            - ~/.ivy2
-            - ~/.sbt
-      - run: sbt coverage test
-      - run: sbt coverageReport
-      - run: sbt coverageAggregate
-      - run: sbt codacyCoverage
+version: 2.1
+
+orbs:
+  codacy: codacy/base@0.0.4
+
+workflows:
+  compile_test_deploy:
+    jobs:
+      - codacy/checkout_and_version:
+          write_sbt_version: true
+      - codacy/sbt:
+          name: populate_cache
+          cmd: ;set scalafmtUseIvy in ThisBuild := false;update
+          requires:
+            - codacy/checkout_and_version
+      # - codacy/sbt:
+      #     name: check_fmt
+      #     cmd: ;scalafmt::test;test:scalafmt::test;sbt:scalafmt::test
+      #     requires:
+      #       - populate_cache
+      - codacy/sbt:
+          name: compile
+          cmd: ;compile;test:compile
+          requires:
+            - populate_cache
+      - codacy/sbt:
+          name: test
+          cmd: ;coverage;test;coverageReport;coverageAggregate;codacyCoverage
+          requires:
+            - compile
+      - codacy/sbt:
+          name: publish
+          context: CodacyAWS
+          cmd: ;clean;retrieveGPGKeys;publishSigned;sonatypeReleaseAll
+          requires:
+            - test
+      - codacy/tag_version:
+          name: tag_version
+          context: CodacyAWS
+          requires:
+            - publish
+          filters:
+            branches:
+              only:
+              - master

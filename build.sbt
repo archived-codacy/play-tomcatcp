@@ -1,13 +1,12 @@
 organization in ThisBuild := "com.codacy"
-version in ThisBuild := "1.0.0-SNAPSHOT"
-scalaVersion in ThisBuild := "2.11.11"
+scalaVersion in ThisBuild := "2.11.12"
 scalacOptions in ThisBuild := Seq("-deprecation", "-feature", "-unchecked", "-Ywarn-adapted-args", "-Xlint")
 resolvers in ThisBuild += Resolver.typesafeRepo("releases")
 
 lazy val aggregatedProjects: Seq[ProjectReference] = Seq(
   codacyTomcatCP, 
   codacyTomcatCPDropwizard3, codacyTomcatCPDropwizard4,
-  codacyTomcatCPPlay243, codacyTomcatCPPlay24, codacyTomcatCPPlay25, codacyTomcatCPPlay26
+  codacyTomcatCPPlay243, codacyTomcatCPPlay24, codacyTomcatCPPlay25, codacyTomcatCPPlay26, codacyTomcatCPPlay27
 )
 
 lazy val codacyTomcat = project.in(file("."))
@@ -18,6 +17,7 @@ lazy val codacyTomcat = project.in(file("."))
     publishLocal := {},
     publishArtifact := false
   )
+  .disablePlugins(SbtS3Resolver)
 
 lazy val codacyTomcatCP = project.in(file("tomcatcp"))
   .settings(name := "codacy-tomcatcp")
@@ -26,8 +26,12 @@ lazy val codacyTomcatCP = project.in(file("tomcatcp"))
       "org.apache.tomcat" % "tomcat-jdbc" % "9.0.2",
       "org.scalatest" %% "scalatest" % "3.0.4" % Test,
       "com.iheart" %% "ficus" % "1.4.3"
-    )
+    ),
+    pgpPassphrase := Option(System.getenv("SONATYPE_GPG_PASSPHRASE")).map(_.toCharArray),
+    sources in (Compile, doc) := Seq(),
+    publishArtifact in (Compile, packageDoc) := true
   )
+  .disablePlugins(SbtS3Resolver)
 
 val projectVersion = "1.0.0"
 
@@ -47,10 +51,14 @@ def generatePlayProject(projectName: String, playVersion: String) = {
       libraryDependencies ++= Seq(
         "com.typesafe.play" %% "play" % playVersion,
         "com.typesafe.play" %% "play-jdbc" % playVersion
-      )
+      ),
+      pgpPassphrase := Option(System.getenv("SONATYPE_GPG_PASSPHRASE")).map(_.toCharArray),
+      sources in (Compile, doc) := Seq(),
+      publishArtifact in (Compile, packageDoc) := true
     )
     .dependsOn(codacyTomcatCP)
     .aggregate(codacyTomcatCP)
+    .disablePlugins(SbtS3Resolver)
 }
 
 lazy val codacyTomcatCPPlay243 = generatePlayProject("codacy-tomcatcp-play243", "2.4.3")
@@ -75,10 +83,14 @@ def generateDropwizardProject(projectName: String, dropwizardVersion: String) = 
       libraryDependencies ++= Seq(
         "io.dropwizard.metrics" % "metrics-core" % dropwizardVersion,
         "io.dropwizard.metrics" % "metrics-healthchecks" % dropwizardVersion
-      )
+      ),
+      pgpPassphrase := Option(System.getenv("SONATYPE_GPG_PASSPHRASE")).map(_.toCharArray),
+      sources in (Compile, doc) := Seq(),
+      publishArtifact in (Compile, packageDoc) := true
     )
     .dependsOn(codacyTomcatCP)
     .aggregate(codacyTomcatCP)
+    .disablePlugins(SbtS3Resolver)
 }
 
 lazy val codacyTomcatCPDropwizard3 = generateDropwizardProject("codacy-tomcatcp-dropwizard3", "3.2.5")
@@ -104,6 +116,8 @@ publishTo in ThisBuild := {
     Some("releases" at nexus + "service/local/staging/deploy/maven2")
 }
 
+pgpPassphrase in ThisBuild := Option(System.getenv("SONATYPE_GPG_PASSPHRASE")).map(_.toCharArray)
+
 startYear in ThisBuild := Some(2014)
 
 description in ThisBuild := "TomcatCP Plugin"
@@ -118,17 +132,3 @@ pomExtra in ThisBuild :=
     <connection>scm:git:git@github.com:codacy/play-tomcatcp.git</connection>
     <developerConnection>scm:git:https://github.com/codacy/play-tomcatcp.git</developerConnection>
   </scm>
-    <developers>
-      <developer>
-        <id>mrfyda</id>
-        <name>Rafael Cortês</name>
-        <email>rafael [at] codacy.com</email>
-        <url>https://github.com/mrfyda</url>
-      </developer>
-      <developer>
-        <id>rtfpessoa</id>
-        <name>Rodrigo Fernandes</name>
-        <email>rodrigo [at] codacy.com</email>
-        <url>https://github.com/rtfpessoa</url>
-      </developer>
-    </developers>
